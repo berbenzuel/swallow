@@ -1,0 +1,29 @@
+export struct ModeColors {
+    foregroundPrimary: color,
+    foregroundSecondary: color
+}
+
+export global Palette {
+    
+    in property <bool> dark: true;
+
+    //lately loading from themes? or that stuff
+
+    //https://coolors.co/palette/f3e9dc-c08552-5e3023-895737-dab49d
+    property <ModeColors> light-colors: {
+        foregroundPrimary: #f3e9dc,
+        foregroundSecondary: #dab49d
+    };
+
+    //https://colorhunt.co/palette/0c0c0c481e149b3922f2613f
+    property <ModeColors> dark-colors: {
+        foregroundPrimary: #000000,
+        foregroundSecondary: #ffffff
+    };
+    
+    
+    out property <color> foregroundPrimary: dark ? light-colors.foregroundPrimary : dark-colors.foregroundPrimary;
+    out property <color> foregroundSecondary: dark ? light-colors.foregroundSecondary : dark-colors.foregroundSecondary;
+
+
+}

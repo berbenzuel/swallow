@@ -2,6 +2,12 @@
 name = "swallow"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
+
+[build-dependencies]
+slint-build = "1.12.1"
 
 [dependencies]
-whoami = "1.6.0"
+whoami = "2.0.0-pre.2"
+slint = "1.12.1"
+string-builder = "0.2.0"

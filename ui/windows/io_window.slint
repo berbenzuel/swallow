@@ -1,0 +1,25 @@
+
+import { FileData } from "../file_data/FileData.slint";
+import { FilesViewport } from "../viewports/FilesViewport.slint";
+import { FoldersViewport } from "../viewports/FoldersViewport.slint";
+import { Palette } from "../common/Palette.slint";
+export component IoWindow inherits Window{
+    in-out property <[FileData]> files;
+    in-out property <[FileData]> folders;
+
+    callback open_folder;
+
+
+    HorizontalLayout {
+        foldersView := FoldersViewport {
+                   folders: root.folders;
+                   open_folder => {
+                        root.open_folder();
+                   }
+               }
+        filesView := FilesViewport {
+                files: root.files;
+        }
+
+    }
+}

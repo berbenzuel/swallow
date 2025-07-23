@@ -1,0 +1,25 @@
+import {FileData} from "../file_data/FileData.slint";
+import { Palette } from "../common/Palette.slint";
+
+
+export component FolderComponent inherits Rectangle {
+
+    in-out property <FileData> folder;
+    callback open_folder;
+
+    background: Palette.foregroundPrimary;
+    border-color: Palette.foregroundSecondary;
+    border-width: 3px;
+    Text {
+        text: folder.name;
+        color: black;
+    }
+
+    TouchArea {
+        width: parent.width;
+        height: parent.height;
+        clicked => {
+            parent.open_folder();
+        }
+    }
+}

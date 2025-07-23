@@ -1,0 +1,12 @@
+import {FileComponent} from "ui/io_components/FileComponent.slint";
+import { FileData } from "ui/file_data/FileData.slint";
+export component FilesViewport {
+    in-out property <[FileData]> files;
+
+    VerticalLayout {
+        for file in files: FileComponent {
+            file: file;
+        }
+
+    }
+}

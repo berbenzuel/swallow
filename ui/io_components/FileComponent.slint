@@ -1,0 +1,16 @@
+import {FileData} from "../file_data/FileData.slint";
+import { Palette } from "../common/Palette.slint";
+
+export component FileComponent inherits Rectangle{
+
+    in-out property <FileData> file;
+
+    background: Palette.foregroundPrimary;
+    border-color: Palette.foregroundSecondary;
+    border-width: 3px;
+
+    Text {
+        text: file.name;
+        color: black;
+    }
+}

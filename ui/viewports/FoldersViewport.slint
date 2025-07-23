@@ -1,0 +1,17 @@
+import {FolderComponent} from "../io_components/FolderComponent.slint";
+import { FileData } from "../file_data/FileData.slint";
+export component FoldersViewport {
+    in-out property <[FileData]> folders;
+
+    callback open_folder;
+
+    VerticalLayout {
+        for folder in folders: comp:= FolderComponent {
+            folder: folder;
+            open_folder => {
+                root.open_folder();
+            }
+        }
+
+    }
+}
