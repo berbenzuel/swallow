@@ -1,25 +1,42 @@
 
 import { FileData } from "../file_data/FileData.slint";
+import { Content } from "../file_data/Content.slint";
 import { FilesViewport } from "../viewports/FilesViewport.slint";
 import { FoldersViewport } from "../viewports/FoldersViewport.slint";
 import { Palette } from "../common/Palette.slint";
-export component IoWindow inherits Window{
-    in-out property <[FileData]> files;
-    in-out property <[FileData]> folders;
+import {IoWindowAdapter} from "../adapters/IoWindowAdapter.slint";
 
-    callback open_folder;
+import { Button, VerticalBox } from "std-widgets.slint";
 
 
-    HorizontalLayout {
-        foldersView := FoldersViewport {
-                   folders: root.folders;
-                   open_folder => {
-                        root.open_folder();
-                   }
-               }
-        filesView := FilesViewport {
-                files: root.files;
+export component IoWindow inherits Window {
+
+    in-out property <string> hash;
+    in-out property  <Content> content;
+
+    in-out property <int> id;
+
+    min-width: 200px;
+    min-height: 200px;
+
+    VerticalBox {
+        Button {
+            text: "back";
+            clicked => {
+                IoWindowAdapter.open_parent_folder(root.id)
+            }
         }
+        HorizontalLayout {
+            foldersView := FoldersViewport {
+                       folders: root.content.folders;
+                       open_folder(path) => {
+                            IoWindowAdapter.open_folder(path, root.id);
+                       }
+                   }
+            filesView := FilesViewport {
+                    files: root.content.files;
+            }
 
+        }
     }
 }

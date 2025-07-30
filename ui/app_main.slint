@@ -1,0 +1,19 @@
+import { IoWindow } from "./windows/io_window.slint";
+import {IoWindowAdapter} from "./adapters/IoWindowAdapter.slint";
+import { Content } from "./file_data/Content.slint";
+import { HorizontalBox } from "std-widgets.slint";
+
+
+export {IoWindowAdapter}
+
+export component AppMain inherits Window{
+    in property <[Content]> model;
+
+    HorizontalBox {
+        for content[i] in root.model : IoWindow {
+            id: i;
+            content: content;
+        }
+    }
+
+}

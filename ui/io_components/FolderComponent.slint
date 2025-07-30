@@ -5,7 +5,7 @@ import { Palette } from "../common/Palette.slint";
 export component FolderComponent inherits Rectangle {
 
     in-out property <FileData> folder;
-    callback open_folder;
+    callback open_folder(string);
 
     background: Palette.foregroundPrimary;
     border-color: Palette.foregroundSecondary;
@@ -19,7 +19,7 @@ export component FolderComponent inherits Rectangle {
         width: parent.width;
         height: parent.height;
         clicked => {
-            parent.open_folder();
+            root.open_folder(folder.path);
         }
     }
 }

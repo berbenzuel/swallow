@@ -1,12 +1,24 @@
-import {FileComponent} from "ui/io_components/FileComponent.slint";
-import { FileData } from "ui/file_data/FileData.slint";
+import {FileComponent} from "../io_components/FileComponent.slint";
+import { FileData } from "../file_data/FileData.slint";
+import { ScrollView } from "std-widgets.slint";
+
+
 export component FilesViewport {
     in-out property <[FileData]> files;
 
-    VerticalLayout {
-        for file in files: FileComponent {
-            file: file;
-        }
 
+    min-width: 50px;
+    min-height: 50px;
+
+    ScrollView {
+        mouse-drag-pan-enabled: true;
+        vertical-scrollbar-policy: as-needed;
+        horizontal-scrollbar-policy: always-off;
+        VerticalLayout {
+            for file in files: FileComponent {
+                file: file;
+            }
+
+        }
     }
 }

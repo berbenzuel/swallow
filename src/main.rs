@@ -1,8 +1,13 @@
+use std::cell::RefCell;
+use std::collections::HashMap;
 use std::env;
 use std::env::home_dir;
 use std::path::Path;
 use std::rc::Rc;
 use slint::{ModelRc, SharedString, VecModel};
+use log::log;
+use slint::private_unstable_api::debug;
+use slint::private_unstable_api::re_exports::SharedVectorModel;
 use crate::io::io_manager;
 
 slint::include_modules!();
@@ -11,44 +16,25 @@ slint::include_modules!();
 mod io;
 mod ui;
 
-fn main() {
+//Box dyn Error -- it can return any error which implements Error trait:) (gonna kill myself)
+fn main() -> Result<(), Box<dyn std::error::Error>>{
     println!("Hello, world!");
 
+    let app = AppMain::new()?;
 
-    let user = match whoami::username() {
-        Ok(user) => user,
-        Err(err) => panic!("{}", err),
-    };
+    let model: Rc<VecModel<Content>> =(Rc::new(VecModel::default()));
 
-    let home_dir = env::home_dir().unwrap();
+    _ = ui::handle_callbacks(&app, &model);
 
-    let path = home_dir.join("Downloads");
-    dbg!(&path.to_str());
+    _ = ui::spawn_new_window(&model);
+    _ = ui::spawn_new_window(&model);
 
+    let model = ModelRc::from(model);
 
-    let files = VecModel::default();
-    let folders = VecModel::default();
+    app.set_model(model);
 
-    io_manager::read_dir_as_file_data(Path::new(&path))
-        .unwrap()
-        .iter().for_each(|item| {
-        match item.file_type {
-            FileType::File => files.push(item.clone()),
-            FileType::Folder => folders.push(item.clone()),
-        }
-    });
-
-    let win = IoWindow::new().unwrap();
-    win.set_files(ModelRc::new(files));
-    win.set_folders(ModelRc::new(folders));
-
-
-    win.on_open_folder(move || {
-       println!("open_folder")
-    });
-
-    win.run().unwrap();
-
+    app.run().unwrap();
+    return Ok(());
 }
 
 pub fn foo() -> SharedString {
